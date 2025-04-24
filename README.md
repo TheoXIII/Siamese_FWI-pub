@@ -11,6 +11,8 @@ This repository is organized as follows:
 * :open_file_folder: **utils**: set of common function to run FWI;
 * :open_file_folder: **Model**: containing Siamese network;
 * :open_file_folder: **results**: containing the reconstructed velocity model using SiameseFWI;
+* :open_file_folder: **deepwave-old**: containing the old version of the DeepWave package;
+* 
 
 ## Notebooks
 The following notebooks are provided:
@@ -35,9 +37,13 @@ Remember to always activate the environment by typing:
 ```
 conda activate FWIGAN
 ```
+To install the old version of the DeepWave package, navigate to the "deepwave-old" folder, and run:
+```
+cd ./deepwave-old/
+python setup.py install
+```
 
-**Disclaimer:** All experiments have been carried on a Intel(R) Xeon(R) CPU @ 2.10GHz equipped with a single NVIDIA GEForce RTX 3090 GPU. Different environment 
-configurations may be required for different combinations of workstation and GPU.
+**Disclaimer:** All experiments have been carried on a Intel(R) Xeon(R) CPU @ 2.10GHz equipped with a single NVIDIA GEForce RTX 3090 GPU. Different environment configurations may be required for different combinations of workstation and GPU.
 
 ## Cite us 
 ```bibtex

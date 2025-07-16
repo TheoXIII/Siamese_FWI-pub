@@ -27,7 +27,7 @@ import torch.nn as nn
 from scipy.signal import sosfilt
 from scipy.signal import zpk2sos
 from scipy.fft import fft, fftfreq
-from scipy.signal import butter, lfilter,hanning
+# from scipy.signal import butter, lfilter,hanning
 
 
 
@@ -147,12 +147,16 @@ def createdata(model,dx,source_amplitudes,x_s,x_r,dt, \
     """
         Create data depends on the velocity model 
     """
-    prop = deepwave.scalar.Propagator({'vp': model.to(device)},dx,pml_width, \
-                                      order,survey_pad)
+#                                      order,survey_pad)
     # the shape of receiver_amplitudes is [nt, num_shots, num_receivers_per_shot]
-    receiver_amplitudes = prop(source_amplitudes.to(device), \
-                               x_s.to(device), \
-                               x_r.to(device),dt).cpu()
+
+    # Modified to comply with deepwave 0.0.20
+
+    receiver_amplitudes = deepwave.scalar(v=model.to(device), grid_spacing=dx, dt=dt, \
+        source_amplitudes=source_amplitudes.to(device), \
+        source_locations=x_s.to(device), receiver_locations=x_r.to(device), \
+        survey_pad=survey_pad, \
+        pml_width=pml_width, accuracy=order).cpu()
 
     return receiver_amplitudes
    

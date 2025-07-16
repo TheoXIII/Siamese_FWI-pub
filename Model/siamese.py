@@ -13,6 +13,9 @@ import torch.nn.functional as F
 import torch.nn.init as init
 
 # Initialization of network parameters
+
+# Possibly clean this up - does not look like it needs to be so complicated as we just have Conv2d layers!
+
 def weights_init(m, leak_value):
     
     if isinstance(m, nn.Conv2d) or isinstance(m, nn.ConvTranspose2d):
@@ -82,7 +85,7 @@ class SiameseNetwork(nn.Module):
         
     def forward_once(self, x):
         # This function will be called for both images
-        # It's output is used to determine the similiarity
+        # Its output is used to determine the similiarity
         
         xx1 =  self.axx1(self.cnnXX1(x))
         xx2 =  self.axx2(self.cnnXX2(x))
@@ -97,11 +100,9 @@ class SiameseNetwork(nn.Module):
         output1 = output1 + xx1
         
         output2 = self.a2(self.cnn2(output1))
-        #output2 = torch.cat((output1,output2),dim=1)
         output2 = output2 + xx2
        
         output3 = self.a3(self.cnn3(output2))
-        #output3 = torch.cat((output2,output3),dim=1)
         output3 = output3 + xx3
         
         output4 = self.a4(self.cnn4(output3))
@@ -111,15 +112,13 @@ class SiameseNetwork(nn.Module):
         output5 = output5 + xx5
 
         output6 = self.a6(self.cnn6(output5))
-        #output2 = torch.cat((output1,output2),dim=1)
         output6 = output6 + xx6 
        
         output7 = self.a7(self.cnn7(output6))
-        #output3 = torch.cat((output2,output3),dim=1)
         output7 = output7 + xx7
        
         output8 = self.cnn8(output7)
-        output8 =   output8 + xx + x
+        output8 =   output8 + xx + x # Add skip connection at the end
                             
         return output4, output8
 
